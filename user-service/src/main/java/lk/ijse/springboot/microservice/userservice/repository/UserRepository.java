@@ -1,8 +1,9 @@
 package lk.ijse.springboot.microservice.userservice.repository;
 
 import lk.ijse.springboot.microservice.userservice.entity.User;
-import org.hibernate.internal.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

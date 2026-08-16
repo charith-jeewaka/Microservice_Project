@@ -56,5 +56,53 @@ public class ParkingService {
         repository.deleteById(id);
     }
 
-    
+    public List<ParkingSpace> findByCity(String city) {
+        return repository.findByCity(city);
+    }
+
+    public List<ParkingSpace> findByStatus(ParkingStatus status) {
+        return repository.findByStatus(status);
+    }
+
+    public List<ParkingSpace> findByCityAndStatus(
+            String city,
+            ParkingStatus status
+    ) {
+        return repository.findByCityAndStatus(city, status);
+    }
+
+    public ParkingSpace reserve(Long id) {
+
+        ParkingSpace parkingSpace = getById(id);
+
+        if (parkingSpace.getStatus() != ParkingStatus.AVAILABLE) {
+            throw new RuntimeException("Parking space is not available");
+        }
+
+        parkingSpace.setStatus(ParkingStatus.RESERVED);
+
+        return repository.save(parkingSpace);
+    }
+
+    public ParkingSpace occupy(Long id) {
+
+        ParkingSpace parkingSpace = getById(id);
+
+        if (parkingSpace.getStatus() == ParkingStatus.OCCUPIED) {
+            throw new RuntimeException("Parking space is already occupied");
+        }
+
+        parkingSpace.setStatus(ParkingStatus.OCCUPIED);
+
+        return repository.save(parkingSpace);
+    }
+
+    public ParkingSpace release(Long id) {
+
+        ParkingSpace parkingSpace = getById(id);
+
+        parkingSpace.setStatus(ParkingStatus.AVAILABLE);
+
+        return repository.save(parkingSpace);
+    }
 }
